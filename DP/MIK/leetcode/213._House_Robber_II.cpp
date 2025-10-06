@@ -12,6 +12,8 @@ public:
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
+        if(n==1)
+        return nums[0];
         return max(helper(nums, 0, n - 2), helper(nums, 1, n-1));
     }
 };
@@ -30,7 +32,33 @@ public:
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
+        if(n==1)
+        return nums[0];
         vector<int>dp(n,-1);
+        int take_0=helper(nums, 0, dp, n - 2);
+        fill(dp.begin(),dp.end(),-1); //use this or create new dp array so that changes in take_0 does not affect skip_0 
+        int skip_0=helper(nums, 1, dp, n - 1);
+        return max(take_0,skip_0);
+    }
+};
+
+// bottom up
+class Solution {
+public:
+    int helper(vector<int>& nums, int i, vector<int>& dp, int n) {
+        int len=n-i+1;
+        dp[0]=0;
+        dp[1]=nums[i];
+        for(int j=2;j<=len;j++){
+            dp[j]=max(dp[j-1],nums[i+j-1]+dp[j-2]);
+        }
+        return dp[len];
+    }
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n==1)
+        return nums[0];
+        vector<int>dp(n+2,-1);
         int take_0=helper(nums, 0, dp, n - 2);
         fill(dp.begin(),dp.end(),-1); //use this or create new dp array so that changes in take_0 does not affect skip_0 
         int skip_0=helper(nums, 1, dp, n - 1);
