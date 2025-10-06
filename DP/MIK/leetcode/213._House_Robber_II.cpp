@@ -4,7 +4,7 @@
 class Solution {
 public:
     int helper(vector<int>& nums, int i, int n) {
-        if (i >= n)
+        if (i > n)
             return 0;
         int take = nums[i] + helper(nums, i + 2, n);
         int skip = helper(nums, i + 1, n);
@@ -12,7 +12,28 @@ public:
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        return max(helper(nums, 0, n - 1), helper(nums, 1, n));
+        return max(helper(nums, 0, n - 2), helper(nums, 1, n-1));
     }
 };
 
+// rec + memo
+class Solution {
+public:
+    int helper(vector<int>& nums, int i, vector<int>& dp, int n) {
+        if (i > n)
+            return 0;
+            if(dp[i]!=-1)
+            return dp[i];
+        int take = nums[i] + helper(nums, i + 2, dp, n);
+        int skip = helper(nums, i + 1, dp, n);
+        return dp[i]=max(take, skip);
+    }
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>dp(n,-1);
+        int take_0=helper(nums, 0, dp, n - 2);
+        fill(dp.begin(),dp.end(),-1); //use this or create new dp array so that changes in take_0 does not affect skip_0 
+        int skip_0=helper(nums, 1, dp, n - 1);
+        return max(take_0,skip_0);
+    }
+};
