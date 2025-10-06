@@ -65,3 +65,29 @@ public:
         return max(take_0,skip_0);
     }
 };
+
+
+// space optimized O(1)
+class Solution {
+public:
+    int helper(vector<int>& nums, int i, int n) {
+        int len=n-i+1;
+        int prev2=0;
+        int prev1=nums[i];       //inialize it like this so that if it dont enter loop if len is 1 then also we get correct ans
+        int ans=prev1;
+        for(int j=2;j<=len;j++){
+            ans=max(prev1,prev2+nums[j+i-1]);  // here j+i beacuse array index for nums is fix if i=1 then we have to consider adding 1 in it to get correct house numbers
+            prev2=prev1;
+            prev1=ans;
+        }
+        return ans;
+    }
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n==1)
+        return nums[0];
+        int take_0=helper(nums, 0, n - 2);
+        int skip_0=helper(nums, 1,n - 1);
+        return max(take_0,skip_0);
+    }
+};
