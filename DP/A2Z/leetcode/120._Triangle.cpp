@@ -18,3 +18,30 @@ public:
         return helper(t,n,0,0);
     }
 };
+
+
+//  rec + memo
+
+class Solution {
+public:
+    vector<vector<int>>dp;
+    int helper(vector<vector<int>>& t,int n,int i,int j){
+        if(i>=n)
+        return INT_MAX;
+        if(i==n-1)
+        return t[i][j];
+        if(dp[i][j]!=-1)
+        return dp[i][j];
+        int take_i=t[i][j]+helper(t,n,i+1,j);
+        int take_i1=t[i][j]+helper(t,n,i+1,j+1);
+        return dp[i][j]=min(take_i,take_i1);
+    }
+    int minimumTotal(vector<vector<int>>& t) {
+        int n=t.size();
+        dp.resize(n,vector<int>(n,-1));
+        return helper(t,n,0,0);
+    }
+};
+
+
+//  
