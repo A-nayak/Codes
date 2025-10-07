@@ -1,5 +1,7 @@
 // https://leetcode.com/problems/unique-paths-ii/description/
 
+//pure rec
+
 class Solution {
 public:
     int helper(vector<vector<int>>& g,int m,int n,int i,int j){
@@ -19,6 +21,8 @@ public:
         return helper(g,m,n,0,0);
     }
 };
+
+// rec + memo
 
 class Solution {
 public:
