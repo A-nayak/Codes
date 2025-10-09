@@ -44,4 +44,19 @@ public:
 };
 
 
-//  
+//  bottom up O(n^2)
+// we cant go up to down means we dont have precomputation of dp[0][0]
+// as problem states min cost to reach bottom we consider that state here is cost to reach from ith row to bottom so we first check for the lowest row for lowest row each element cost is there cost to reach till bottom, so for n-1th row (n-2 index wise) we use nth(n-1 index wise) row's precomputated value
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& t) {
+        int n=t.size();
+        vector<vector<int>>dp=t;        // we just copy the t grid in dp as we have to use values of n-1th index row
+        for(int i =n-2;i>=0;i--){        // this is index of rows so we move bottom to up so we start from n-2th index(n-1th row) and move till 0th index
+            for(int j=0;j<=i;j++){       // this is column number so we are only interested in j values till i exp(i=3 we have 4 elements (0 based indexing))
+                dp[i][j]=t[i][j]+min(dp[i+1][j],dp[i+1][j+1]);   // here you can write dp[i][j]+min(dp[i+1][j],dp[i+1][j+1]);  as we copied t in dp
+            }
+        }
+        return dp[0][0];             // min cost to reach bottom most row from row 0
+    }
+};
