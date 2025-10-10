@@ -75,3 +75,25 @@ public:
 };
 
 //bottom up O(n) space
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& m) {
+        int n=m.size();
+        vector<int>prev_row(n+2,INT_MAX);          //we need two arrays why?
+        vector<int>curr_row(n+2,INT_MAX);
+        for(int j=1;j<=n;j++){
+            prev_row[j]=m[n-1][j-1];
+        }
+        for(int i=n-2;i>=0;i--){
+            for(int j=1;j<=n;j++){
+                curr_row[j]=m[i][j-1]+min(prev_row[j],min(prev_row[j-1],prev_row[j+1]));
+            }                              //because here suppose if we use only one so in j=1 value we update prev_row[j] and when j=2 so j-1=1's value is altered not same as original val so we use two arrays 
+            prev_row=curr_row;
+        }
+        int mini=INT_MAX;
+        for(int j=1;j<=n;j++){
+            mini=min(prev_row[j],mini);
+        }
+        return mini;
+    }
+};
